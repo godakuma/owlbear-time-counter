@@ -59,34 +59,27 @@ function stopLocalCountdown() {
 
 function createUI() {
   const container = document.createElement("div");
-  container.style.padding = "10px";
-  container.style.fontFamily = "monospace";
-  container.style.width = "220px";
-
-  // Imagem personalizada no popover
-  const img = document.createElement("img");
-  img.src = "./icone.png";
-  img.style.width = "32px";
-  img.style.marginBottom = "8px";
-  container.appendChild(img);
+  container.style.padding="10px";
+  container.style.fontFamily="monospace";
+  container.style.width="220px";
 
   display = document.createElement("div");
-  display.style.fontSize = "22px";
-  display.style.marginBottom = "8px";
+  display.style.fontSize="22px";
+  display.style.marginBottom="8px";
   display.innerText = formatTime(totalSeconds);
 
   const input = document.createElement("input");
   input.type="text";
   input.placeholder = isGM ? "HH:MM:SS | MM:SS | SS" : "Somente o GM edita";
   input.style.width="100%";
-  input.disabled = !isGM;
-  input.addEventListener("keydown", async e=>{
+  input.disabled=!isGM;
+  input.addEventListener("keydown", async e => {
     if (!isGM) return;
     if (e.key==="Enter") {
       const seconds = parseTimeInput(input.value.trim());
       if (seconds!==null) {
-        totalSeconds = seconds;
-        running = false;
+        totalSeconds=seconds;
+        running=false;
         stopLocalCountdown();
         display.innerText = formatTime(totalSeconds);
         await syncState();
@@ -96,13 +89,13 @@ function createUI() {
   });
 
   const btnStart = document.createElement("button");
-  btnStart.innerText="Iniciar"; btnStart.disabled = !isGM;
+  btnStart.innerText="Iniciar"; btnStart.disabled=!isGM;
 
   const btnPause = document.createElement("button");
-  btnPause.innerText="Pausar"; btnPause.style.marginLeft="4px"; btnPause.disabled = !isGM;
+  btnPause.innerText="Pausar"; btnPause.style.marginLeft="4px"; btnPause.disabled=!isGM;
 
   const btnReset = document.createElement("button");
-  btnReset.innerText="Resetar"; btnReset.style.marginLeft="4px"; btnReset.disabled = !isGM;
+  btnReset.innerText="Resetar"; btnReset.style.marginLeft="4px"; btnReset.disabled=!isGM;
 
   btnStart.onclick=async ()=>{
     if (!isGM||totalSeconds<=0) return;
@@ -128,7 +121,7 @@ function createUI() {
 
 OBR.onReady(async () => {
   const player = await OBR.player.getSelf();
-  isGM = player.role==="GM";
+  isGM = player.role === "GM";
 
   const metadata = await OBR.room.getMetadata();
   totalSeconds = metadata[METADATA_TIME] ?? 0;
@@ -137,7 +130,7 @@ OBR.onReady(async () => {
   OBR.room.onMetadataChange(meta => {
     if (meta[METADATA_TIME]!==undefined){
       totalSeconds = meta[METADATA_TIME];
-      display.innerText=formatTime(totalSeconds);
+      display.innerText = formatTime(totalSeconds);
     }
     if (meta[METADATA_RUNNING]!==undefined){
       running = meta[METADATA_RUNNING];
@@ -145,12 +138,13 @@ OBR.onReady(async () => {
     }
   });
 
-  // Tool com ícone interno para aparecer na barra superior
   await OBR.tool.create({
-    icon: "clock", // obrigatório para aparecer na barra superior
-    label: "Contador",
+    id: "contador-tool",
+    icons: [
+      { icon: "/iclock.svg", label: "Contador" }
+    ],
     onClick: ctx => {
-      ctx.openPopover({ anchor: "tool", content: createUI() });
+      ctx.openPopover({anchor:"tool", content:createUI()});
     }
   });
 });
