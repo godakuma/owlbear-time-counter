@@ -1,8 +1,13 @@
 {
-  "manifest_version": 2,
-  "name": "Contador Regressivo",
+  "name": "Hello, World!",
   "version": "1.0.0",
-  "description": "Contador regressivo sincronizado. Apenas o GM controla.",
-  "author": "Vitor + Aria"
+  "manifest_version": 2,
+  "action": {
+    "title": "Contador regressivo",
+    "icon": "/Ampulheta.svg",
+    "popover": "/",
+    "height": 600,
+    "width": 400
+  }
 }
 
