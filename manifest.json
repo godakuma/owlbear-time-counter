@@ -1,5 +1,5 @@
 {
-  "name": "Hello, World!",
+  "name": "Contador Regressivo",
   "version": "1.0.0",
   "manifest_version": 2,
   "action": {
