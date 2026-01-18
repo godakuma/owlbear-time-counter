@@ -2,8 +2,7 @@
   "id": "time-counter",
   "name": "Contador Regressivo",
   "version": "1.0.0",
-  "description": "Contador de tempo regressivo sincronizado. Apenas o GM controla.",
+  "description": "Contador regressivo sincronizado. Apenas o GM controla.",
   "author": "Vitor + Aria",
-  "entry": "index.js",
-  "icon": "⏱️"
+  "entry": "index.html"
 }
