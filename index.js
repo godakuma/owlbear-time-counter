@@ -1,7 +1,7 @@
-// Extensão de CONTADOR REGRESSIVO sincronizado para Owlbear Rodeo
+// Extensão de CONTADOR REGRESSIVO sincronizado para Owlbear Rodeo 2.0
 // Apenas o GM pode controlar | Aviso visual ao zerar
 
-import OBR from "@owlbear-rodeo/sdk";
+import OBR from "https://unpkg.com/@owlbear-rodeo/sdk?module";
 
 const METADATA_TIME = "time-counter:seconds";
 const METADATA_RUNNING = "time-counter:running";
@@ -41,10 +41,12 @@ async function syncState() {
 
 function startLocalCountdown() {
   if (intervalId) return;
+
   intervalId = setInterval(async () => {
     if (!running) return;
 
     totalSeconds--;
+
     if (totalSeconds <= 0) {
       totalSeconds = 0;
       running = false;
@@ -54,6 +56,7 @@ function startLocalCountdown() {
       // Aviso visual ao zerar
       display.style.color = "red";
       display.style.fontWeight = "bold";
+
       setTimeout(() => {
         display.style.color = "";
         display.style.fontWeight = "";
@@ -73,7 +76,7 @@ function stopLocalCountdown() {
 function createUI() {
   const container = document.createElement("div");
   container.style.padding = "8px";
-  container.style.fontFamily = "sans-serif";
+  container.style.fontFamily = "monospace";
 
   display = document.createElement("div");
   display.style.fontSize = "22px";
@@ -90,8 +93,10 @@ function createUI() {
 
   input.addEventListener("keydown", async (e) => {
     if (!isGM) return;
+
     if (e.key === "Enter") {
       const seconds = parseTimeInput(input.value.trim());
+
       if (seconds !== null && seconds >= 0) {
         totalSeconds = seconds;
         running = false;
@@ -166,6 +171,7 @@ OBR.onReady(async () => {
       totalSeconds = meta[METADATA_TIME];
       display.innerText = formatTime(totalSeconds);
     }
+
     if (meta[METADATA_RUNNING] !== undefined) {
       running = meta[METADATA_RUNNING];
       if (running) startLocalCountdown();
@@ -174,7 +180,6 @@ OBR.onReady(async () => {
   });
 
   await OBR.sidebar.create({
-    id: "time-counter",
     icon: "⏱️",
     title: "Contador Regressivo",
     render: (ctx) => {
@@ -183,3 +188,4 @@ OBR.onReady(async () => {
     },
   });
 });
+
