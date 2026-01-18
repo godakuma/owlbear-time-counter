@@ -1,5 +1,5 @@
-// Extensão de CONTADOR REGRESSIVO sincronizado para Owlbear Rodeo 2.0
-// Apenas o GM pode controlar | Aviso visual ao zerar
+// Contador regressivo sincronizado – Owlbear Rodeo 2.0
+// Apenas o GM controla | Aviso visual ao zerar
 
 import OBR from "https://unpkg.com/@owlbear-rodeo/sdk?module";
 
@@ -53,7 +53,6 @@ function startLocalCountdown() {
       clearInterval(intervalId);
       intervalId = null;
 
-      // Aviso visual ao zerar
       display.style.color = "red";
       display.style.fontWeight = "bold";
 
@@ -75,8 +74,9 @@ function stopLocalCountdown() {
 
 function createUI() {
   const container = document.createElement("div");
-  container.style.padding = "8px";
+  container.style.padding = "10px";
   container.style.fontFamily = "monospace";
+  container.style.width = "220px";
 
   display = document.createElement("div");
   display.style.fontSize = "22px";
@@ -86,18 +86,16 @@ function createUI() {
   const input = document.createElement("input");
   input.type = "text";
   input.placeholder = isGM
-    ? "Definir tempo (HH:MM:SS | MM:SS | SS)"
-    : "Apenas o GM pode editar";
+    ? "HH:MM:SS | MM:SS | SS"
+    : "Somente o GM edita";
   input.style.width = "100%";
   input.disabled = !isGM;
 
   input.addEventListener("keydown", async (e) => {
     if (!isGM) return;
-
     if (e.key === "Enter") {
       const seconds = parseTimeInput(input.value.trim());
-
-      if (seconds !== null && seconds >= 0) {
+      if (seconds !== null) {
         totalSeconds = seconds;
         running = false;
         stopLocalCountdown();
@@ -159,32 +157,28 @@ OBR.onReady(async () => {
   isGM = player.role === "GM";
 
   const metadata = await OBR.room.getMetadata();
-  if (metadata[METADATA_TIME] !== undefined) {
-    totalSeconds = metadata[METADATA_TIME];
-  }
-  if (metadata[METADATA_RUNNING] !== undefined) {
-    running = metadata[METADATA_RUNNING];
-  }
+  totalSeconds = metadata[METADATA_TIME] ?? 0;
+  running = metadata[METADATA_RUNNING] ?? false;
 
   OBR.room.onMetadataChange((meta) => {
     if (meta[METADATA_TIME] !== undefined) {
       totalSeconds = meta[METADATA_TIME];
       display.innerText = formatTime(totalSeconds);
     }
-
     if (meta[METADATA_RUNNING] !== undefined) {
       running = meta[METADATA_RUNNING];
-      if (running) startLocalCountdown();
-      else stopLocalCountdown();
+      running ? startLocalCountdown() : stopLocalCountdown();
     }
   });
 
-  await OBR.sidebar.create({
-    icon: "⏱️",
-    title: "Contador Regressivo",
-    render: (ctx) => {
-      ctx.appendChild(createUI());
-      if (running) startLocalCountdown();
+  await OBR.tool.create({
+    icon: "clock",
+    label: "Contador",
+    onClick: (ctx) => {
+      ctx.openPopover({
+        anchor: "tool",
+        content: createUI(),
+      });
     },
   });
 });
