@@ -43,6 +43,7 @@ function startLocalCountdown() {
       running = false;
       clearInterval(intervalId);
       intervalId = null;
+      // aviso visual
       display.style.color = "red";
       display.style.fontWeight = "bold";
       setTimeout(()=>{display.style.color=""; display.style.fontWeight="";}, 3000);
@@ -119,7 +120,7 @@ function createUI() {
   return container;
 }
 
-OBR.onReady(async ()=>{
+OBR.onReady(async () => {
   const player = await OBR.player.getSelf();
   isGM = player.role==="GM";
 
@@ -127,7 +128,7 @@ OBR.onReady(async ()=>{
   totalSeconds = metadata[METADATA_TIME] ?? 0;
   running = metadata[METADATA_RUNNING] ?? false;
 
-  OBR.room.onMetadataChange(meta=>{
+  OBR.room.onMetadataChange(meta => {
     if (meta[METADATA_TIME]!==undefined){
       totalSeconds = meta[METADATA_TIME];
       display.innerText=formatTime(totalSeconds);
@@ -138,11 +139,12 @@ OBR.onReady(async ()=>{
     }
   });
 
+  // TOOL com ícone personalizado
   await OBR.tool.create({
-    icon: "dice",
+    icon: "icon.png", // seu ícone na pasta da extensão
     label: "Contador",
     onClick: ctx => {
-      ctx.openPopover({anchor:"tool", content:createUI()});
+      ctx.openPopover({ anchor: "tool", content: createUI() });
     }
   });
 });
