@@ -1,15 +1,9 @@
 {
-  "name": "Contador de Tempo",
-  "version": "1.0.0",
   "manifest_version": 2,
-  "description": "Um contador regressivo simples.",
-  "icon": "icon.png",
-  "action": {
-    "title": "Contador",
-    "icon": "icon.png",
-    "location": "TOOL_SIDEBAR",
-    "width": 300,
-    "height": 250,
-    "popover": "index.html"
-  }
+  "name": "Contador Regressivo",
+  "version": "1.0.0",
+  "icon:" "icon.png",
+  "description": "Contador regressivo sincronizado. Apenas o GM controla.",
+  "author": "Vitor + Aria"
 }
+
