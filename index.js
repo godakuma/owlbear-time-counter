@@ -141,7 +141,7 @@ OBR.onReady(async () => {
 
   // TOOL com ícone personalizado
   await OBR.tool.create({
-    icon: "icon.png", // seu ícone na pasta da extensão
+    icon: "⏳", // seu ícone na pasta da extensão
     label: "Contador",
     onClick: ctx => {
       ctx.openPopover({ anchor: "tool", content: createUI() });
