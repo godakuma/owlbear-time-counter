@@ -4,6 +4,5 @@
   "version": "1.0.0",
   "description": "Contador regressivo sincronizado. Apenas o GM controla.",
   "author": "Vitor + Aria",
-  "capabilities": ["tool"]
 }
 
