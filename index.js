@@ -43,7 +43,6 @@ function startLocalCountdown() {
       running = false;
       clearInterval(intervalId);
       intervalId = null;
-      // aviso visual
       display.style.color = "red";
       display.style.fontWeight = "bold";
       setTimeout(()=>{display.style.color=""; display.style.fontWeight="";}, 3000);
@@ -63,6 +62,13 @@ function createUI() {
   container.style.padding = "10px";
   container.style.fontFamily = "monospace";
   container.style.width = "220px";
+
+  // Imagem personalizada no popover
+  const img = document.createElement("img");
+  img.src = "./icone.png";
+  img.style.width = "32px";
+  img.style.marginBottom = "8px";
+  container.appendChild(img);
 
   display = document.createElement("div");
   display.style.fontSize = "22px";
@@ -139,9 +145,9 @@ OBR.onReady(async () => {
     }
   });
 
-  // TOOL com ícone personalizado
+  // Tool com ícone interno para aparecer na barra superior
   await OBR.tool.create({
-    icon: "⏳", // seu ícone na pasta da extensão
+    icon: "clock", // obrigatório para aparecer na barra superior
     label: "Contador",
     onClick: ctx => {
       ctx.openPopover({ anchor: "tool", content: createUI() });
