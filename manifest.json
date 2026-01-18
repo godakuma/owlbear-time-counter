@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "id": "time-counter",
+  "id": "time-counter-v2",
   "name": "Contador Regressivo",
   "version": "1.0.0",
   "description": "Contador regressivo sincronizado. Apenas o GM controla.",
