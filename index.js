@@ -172,7 +172,7 @@ OBR.onReady(async () => {
   });
 
   await OBR.tool.create({
-    icon: "clock",
+    icon: "dice",
     label: "Contador",
     onClick: (ctx) => {
       ctx.openPopover({
